@@ -11,6 +11,7 @@ namespace Tbbc\RestUtilBundle\Error\Factory;
 
 use Tbbc\RestUtil\Error\Error;
 use Tbbc\RestUtil\Error\ErrorFactoryInterface;
+use Tbbc\RestUtil\Error\ErrorInterface;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMappingInterface;
 use Tbbc\RestUtilBundle\Error\Exception\FormErrorException;
 
@@ -22,7 +23,7 @@ class FormErrorFactory implements ErrorFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return 'tbbc_rest_util_form_error';
     }
@@ -30,7 +31,7 @@ class FormErrorFactory implements ErrorFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createError(\Exception $exception, ExceptionMappingInterface $mapping)
+    public function createError(\Exception $exception, ExceptionMappingInterface $mapping): ?ErrorInterface
     {
         if (!$this->supportsException($exception)) {
             return null;
@@ -54,7 +55,7 @@ class FormErrorFactory implements ErrorFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function supportsException(\Exception $exception)
+    public function supportsException(\Exception $exception): bool
     {
         return $exception instanceof FormErrorException;
     }

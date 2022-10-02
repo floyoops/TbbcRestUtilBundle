@@ -9,6 +9,7 @@
 
 namespace Tbbc\RestUtilBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Tbbc\RestUtil\Error\DefaultErrorFactory;
 use Tbbc\RestUtil\Error\Error;
 use Tbbc\RestUtil\Error\ErrorFactoryInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
  */
-class TbbcRestUtilExtensionTest extends \PHPUnit_Framework_TestCase
+class TbbcRestUtilExtensionTest extends TestCase
 {
     /**
      * @var ContainerBuilder
@@ -35,7 +36,7 @@ class TbbcRestUtilExtensionTest extends \PHPUnit_Framework_TestCase
      */
     private $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->extension = new TbbcRestUtilExtension();
@@ -46,7 +47,7 @@ class TbbcRestUtilExtensionTest extends \PHPUnit_Framework_TestCase
         $bundle->build($this->container);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->container, $this->extension);
     }

@@ -9,10 +9,13 @@
 
 namespace Tbbc\RestUtilBundle\Tests\Error\Factory;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Tbbc\RestUtil\Error\Error;
@@ -26,7 +29,7 @@ use Tbbc\RestUtilBundle\Error\Factory\FormErrorFactory;
 /**
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
  */
-class FormErrorFactoryTest extends \PHPUnit_Framework_TestCase
+class FormErrorFactoryTest extends TestCase
 {
     /**
      * @var ErrorResolver
@@ -43,7 +46,7 @@ class FormErrorFactoryTest extends \PHPUnit_Framework_TestCase
      */
     private $form;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->formErrorExceptionMapping = new ExceptionMapping(array(
             'exceptionClassName' => '\Tbbc\RestUtilBundle\Error\Exception\FormErrorException',
@@ -62,7 +65,7 @@ class FormErrorFactoryTest extends \PHPUnit_Framework_TestCase
         $this->form = $this->createForm();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->errorResolver, $this->form, $this->formErrorExceptionMapping);
     }
@@ -111,7 +114,7 @@ class FormErrorFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $eventDispatcher = new EventDispatcher();
 
-        $mapper = $this->getMock('\Symfony\Component\Form\DataMapperInterface');
+        $mapper = $this->getMockBuilder(DataMapperInterface::class)->getMock();
         $form = $this->getBuilder('name', $eventDispatcher)
             ->setCompound(true)
             ->setDataMapper($mapper)
@@ -136,7 +139,7 @@ class FormErrorFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function getBuilder($name = 'name', EventDispatcherInterface $dispatcher = null, $dataClass = null)
     {
-        $factory = $this->getMock('\Symfony\Component\Form\FormFactoryInterface');
+        $factory = $this->getMockBuilder(FormFactoryInterface::class)->getMock();
 
         return new FormBuilder($name, $dataClass, $dispatcher, $factory);
     }

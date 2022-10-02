@@ -9,13 +9,14 @@
 
 namespace Tbbc\RestUtilBundle\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Processor;
 use Tbbc\RestUtilBundle\DependencyInjection\Configuration;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
  */
-class ConfigurationTest extends \PHPUnit_Framework_TestCase
+class ConfigurationTest extends TestCase
 {
     public function testExceptionErrorMappingProcessing()
     {

@@ -9,9 +9,11 @@
 
 namespace Tbbc\RestUtilBundle\Tests\DependencyInjection\Compiler;
 
+use PHPUnit\Framework\TestCase;
 use Tbbc\RestUtil\Error\DefaultErrorFactory;
 use Tbbc\RestUtil\Error\Error;
 use Tbbc\RestUtil\Error\ErrorFactoryInterface;
+use Tbbc\RestUtil\Error\ErrorInterface;
 use Tbbc\RestUtil\Error\ErrorResolver;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMap;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMapping;
@@ -24,7 +26,7 @@ use Symfony\Component\DependencyInjection\Definition;
 /**
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
  */
-class ErrorFactoryCompilerPassTest extends \PHPUnit_Framework_TestCase
+class ErrorFactoryCompilerPassTest extends TestCase
 {
     /**
      * @var ContainerBuilder
@@ -36,7 +38,7 @@ class ErrorFactoryCompilerPassTest extends \PHPUnit_Framework_TestCase
      */
     private $extension;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->container = new ContainerBuilder();
         $this->extension = new TbbcRestUtilExtension();
@@ -47,7 +49,7 @@ class ErrorFactoryCompilerPassTest extends \PHPUnit_Framework_TestCase
         $bundle->build($this->container);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->container, $this->extension);
     }
@@ -145,12 +147,12 @@ class ErrorFactoryCompilerPassTest extends \PHPUnit_Framework_TestCase
 
 class CustomErrorFactory implements ErrorFactoryInterface
 {
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return 'custom';
     }
 
-    public function createError(\Exception $exception, ExceptionMappingInterface $mapping)
+    public function createError(\Exception $exception, ExceptionMappingInterface $mapping): ?ErrorInterface
     {
         return new Error($mapping->getHttpStatusCode(), $mapping->getErrorCode(), $mapping->getErrorMessage());
     }

@@ -36,7 +36,7 @@ class FormErrorException extends \InvalidArgumentException
     /**
      * @return array
      */
-    public function getFormErrors()
+    public function getFormErrors(): array
     {
         return $this->formErrors;
     }
@@ -44,7 +44,7 @@ class FormErrorException extends \InvalidArgumentException
     /**
      * @param FormInterface $form
      */
-    private function buildErrorsTree(FormInterface $form)
+    private function buildErrorsTree(FormInterface $form): void
     {
         $this->formErrors = array();
 
@@ -66,7 +66,8 @@ class FormErrorException extends \InvalidArgumentException
     /**
      * @param FormInterface $form
      */
-    private function buildFormFieldErrorTree(FormInterface $form, $name = null) {
+    private function buildFormFieldErrorTree(FormInterface $form, $name = null): void
+    {
 
         foreach ($form->all() as $key => $child) {
             $children = count($child->all());
