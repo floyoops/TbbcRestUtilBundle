@@ -11,13 +11,13 @@
     </parameters>
 
     <services>
-        <service id="tbbc_rest_util.error.mapping.exception_map" class="%tbbc_rest_util.error.mapping.exception_map.class%" />
+        <service id="tbbc_rest_util.error.mapping.exception_map" class="%tbbc_rest_util.error.mapping.exception_map.class%" public="true" />
 
-        <service id="tbbc_rest_util.error.error_resolver" class="%tbbc_rest_util.error.error_resolver.class%">
+        <service id="tbbc_rest_util.error.error_resolver" class="%tbbc_rest_util.error.error_resolver.class%" public="true">
             <argument type="service" id="tbbc_rest_util.error.mapping.exception_map" />
         </service>
 
-        <service id="tbbc_rest_util.error.default_error_factory" class="%tbbc_rest_util.error.default_error_factory.class%">
+        <service id="tbbc_rest_util.error.default_error_factory" class="%tbbc_rest_util.error.default_error_factory.class%" public="true">
             <tag name="tbbc_rest_util.error_factory" />
         </service>
     </services>

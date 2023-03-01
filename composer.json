@@ -10,23 +10,24 @@
             "email":    "benjamin.dulau@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/borisguery/rest-util"
+        }
+    ],
     "require": {
-        "tbbc/rest-util": "~1.0.0",
+        "tbbc/rest-util": "~1.0.1",
         "symfony/framework-bundle": ">=2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "3.*",
-        "symfony/form": ">=2.0"
+        "phpunit/phpunit": "^9.5",
+        "symfony/form": ">=5.4"
     },
     "autoload": {
         "psr-0": { "Tbbc\\RestUtilBundle": "" }
     },
     "target-dir": "Tbbc/RestUtilBundle",
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
     "config": {
         "bin-dir": "bin"
     }
