@@ -23,11 +23,11 @@ class ConfigurationTest extends TestCase
         $processor = new Processor();
         $configuration = new Configuration();
 
-        $config = $processor->processConfiguration($configuration, array(
-            array(
-                'error' => array(
-                    'exception_mapping' => array(
-                        'InvalidArgumentException' => array(
+        $config = $processor->processConfiguration($configuration, [
+            [
+                'error' => [
+                    'exception_mapping' => [
+                        'InvalidArgumentException' => [
                             'class' => '\RuntimeException',
                             'factory' => 'default',
                             'http_status_code' => 500,
@@ -35,8 +35,8 @@ class ConfigurationTest extends TestCase
                             'error_message' => 'Server error',
                             'error_extended_message' => 'Extended message',
                             'error_more_info_url' => 'http://api.my.tld/doc/error/500123',
-                        ),
-                        'FormException' => array(
+                        ],
+                        'FormException' => [
                             'class' => 'My\FormException',
                             'factory' => 'custom',
                             'http_status_code' => 400,
@@ -44,14 +44,14 @@ class ConfigurationTest extends TestCase
                             'error_message' => 'Validation failed',
                             'error_extended_message' => 'Extended message',
                             'error_more_info_url' => 'http://api.my.tld/doc/error/400110',
-                        ),
-                    )
-                ),
-            )
-        ));
+                        ],
+                    ],
+                ],
+            ],
+        ]);
 
-        $expected = array(
-            'InvalidArgumentException' => array(
+        $expected = [
+            'InvalidArgumentException' => [
                 'class' => '\RuntimeException',
                 'factory' => 'default',
                 'http_status_code' => 500,
@@ -59,8 +59,8 @@ class ConfigurationTest extends TestCase
                 'error_message' => 'Server error',
                 'error_extended_message' => 'Extended message',
                 'error_more_info_url' => 'http://api.my.tld/doc/error/500123',
-            ),
-            'FormException' => array(
+            ],
+            'FormException' => [
                 'class' => 'My\FormException',
                 'factory' => 'custom',
                 'http_status_code' => 400,
@@ -68,8 +68,8 @@ class ConfigurationTest extends TestCase
                 'error_message' => 'Validation failed',
                 'error_extended_message' => 'Extended message',
                 'error_more_info_url' => 'http://api.my.tld/doc/error/400110',
-            ),
-        );
+            ],
+        ];
 
         $this->assertEquals($expected, $config['error']['exception_mapping']);
     }

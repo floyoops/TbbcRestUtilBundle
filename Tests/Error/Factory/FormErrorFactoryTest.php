@@ -9,15 +9,15 @@
 
 namespace Tbbc\RestUtilBundle\Tests\Error\Factory;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\DataMapperInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Tbbc\RestUtil\Error\Error;
 use Tbbc\RestUtil\Error\ErrorResolver;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMap;
@@ -48,7 +48,7 @@ class FormErrorFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->formErrorExceptionMapping = new ExceptionMapping(array(
+        $this->formErrorExceptionMapping = new ExceptionMapping([
             'exceptionClassName' => '\Tbbc\RestUtilBundle\Error\Exception\FormErrorException',
             'factory' => 'tbbc_rest_util_form_error',
             'httpStatusCode' => 400,
@@ -56,7 +56,7 @@ class FormErrorFactoryTest extends TestCase
             'errorMessage' => 'An error has occurred while processing your request, make sure your data are valid',
             'errorExtendedMessage' => 'Extended message',
             'errorMoreInfoUrl' => 'http://api.my.tld/doc/error/400101',
-        ));
+        ]);
 
         $exceptionMap = new ExceptionMap();
         $exceptionMap->add($this->formErrorExceptionMapping);
@@ -70,11 +70,10 @@ class FormErrorFactoryTest extends TestCase
         unset($this->errorResolver, $this->form, $this->formErrorExceptionMapping);
     }
 
-
     public function testFormErrorFactoryCreateErrorReturnNullIfExceptionNotSupported()
     {
         $formErrorFactory = new FormErrorFactory();
-        $exception = new \InvalidArgumentException();
+        $exception = new InvalidArgumentException();
 
         $this->assertNull($formErrorFactory->createError($exception, $this->formErrorExceptionMapping));
     }
@@ -88,17 +87,17 @@ class FormErrorFactoryTest extends TestCase
             400,
             400101,
             'An error has occurred while processing your request, make sure your data are valid',
-            array(
-                'global_errors' => array('Error!'),
-                'property_errors' => array(
-                    'foo' => array(
+            [
+                'global_errors' => ['Error!'],
+                'property_errors' => [
+                    'foo' => [
                         'Foo should not be blank',
-                    ),
-                    'bar' => array(
+                    ],
+                    'bar' => [
                         'This value is not a valid Bar',
-                    )
-                ),
-            ),
+                    ],
+                ],
+            ],
             'http://api.my.tld/doc/error/400101'
         );
 
@@ -131,13 +130,13 @@ class FormErrorFactoryTest extends TestCase
     }
 
     /**
-     * @param string                   $name
-     * @param EventDispatcherInterface $dispatcher
-     * @param string                   $dataClass
+     * @param string $name
+     * @param EventDispatcherInterface|null $dispatcher
+     * @param string|null $dataClass
      *
      * @return FormBuilder
      */
-    protected function getBuilder($name = 'name', EventDispatcherInterface $dispatcher = null, $dataClass = null)
+    protected function getBuilder(string $name = 'name', ?EventDispatcherInterface $dispatcher = null, ?string $dataClass = null)
     {
         $factory = $this->getMockBuilder(FormFactoryInterface::class)->getMock();
 

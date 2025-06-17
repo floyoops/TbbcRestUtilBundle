@@ -14,7 +14,6 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
@@ -51,14 +50,14 @@ class TbbcRestUtilExtension extends Extension
 
     protected function configureErrorExceptionMapping(array $config, ContainerBuilder $container)
     {
-        if (!isset($config['error']['exception_mapping']) || empty($config['error']['exception_mapping'])) {
+        if (! isset($config['error']['exception_mapping']) || empty($config['error']['exception_mapping'])) {
             return;
         }
 
         $exceptionMapDefinition = $container->getDefinition('tbbc_rest_util.error.mapping.exception_map');
         $exceptionMappingClass = $container->getParameter('tbbc_rest_util.error.mapping.exception_mapping.class');
-        foreach($config['error']['exception_mapping'] as $mappingConfig) {
-            $mappingDefinition = new Definition($exceptionMappingClass, array(array(
+        foreach ($config['error']['exception_mapping'] as $mappingConfig) {
+            $mappingDefinition = new Definition($exceptionMappingClass, [[
                 'exceptionClassName' => $mappingConfig['class'],
                 'factory' => 'default' == $mappingConfig['factory'] ? '__DEFAULT__' : $mappingConfig['factory'],
                 'httpStatusCode' => $mappingConfig['http_status_code'],
@@ -66,9 +65,9 @@ class TbbcRestUtilExtension extends Extension
                 'errorMessage' => isset($mappingConfig['error_message']) ? $mappingConfig['error_message'] : null,
                 'errorExtendedMessage' => isset($mappingConfig['error_extended_message']) ? $mappingConfig['error_extended_message'] : null,
                 'errorMoreInfoUrl' => isset($mappingConfig['error_more_info_url']) ? $mappingConfig['error_more_info_url'] : null,
-            )));
+            ]]);
 
-            $exceptionMapDefinition->addMethodCall('add', array($mappingDefinition));
+            $exceptionMapDefinition->addMethodCall('add', [$mappingDefinition]);
         }
     }
 }

@@ -22,20 +22,11 @@ class Configuration implements ConfigurationInterface
 {
     /**
      * Generates the configuration tree builder
-     *
-     * @return TreeBuilder
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('tbbc_rest_util');
-
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC for symfony/config < 4.2
-            $rootNode = $treeBuilder->root('tbbc_rest_util');
-        }
-
+        $rootNode = $treeBuilder->getRootNode();
         $this->addErrorSection($rootNode);
 
         return $treeBuilder;

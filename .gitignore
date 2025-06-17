@@ -1,11 +1,26 @@
-vendor/
-composer.lock
+###> symfony/framework-bundle ###
+/var/
+/vendor/
+/bin/
 
-# IDE/ENV
+# PHPUnit
+.phpunit.result.cache
+
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+
+# PHPStan
+phpstan.neon
+
+# IDE & System Files
+.idea/
+.vscode/
 .DS_Store
-nbproject/*
-catalog.xml
-.idea
+nbproject/
 *.project
-.vagrant
-bin/phpunit
+.vagrant/
+
+# Rector
+rector.php

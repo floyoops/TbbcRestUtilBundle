@@ -10,16 +10,13 @@
 namespace Tbbc\RestUtilBundle\Tests\DependencyInjection;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Tbbc\RestUtil\Error\DefaultErrorFactory;
-use Tbbc\RestUtil\Error\Error;
-use Tbbc\RestUtil\Error\ErrorFactoryInterface;
 use Tbbc\RestUtil\Error\ErrorResolver;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMap;
 use Tbbc\RestUtil\Error\Mapping\ExceptionMapping;
-use Tbbc\RestUtilBundle\TbbcRestUtilBundle;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Tbbc\RestUtilBundle\DependencyInjection\TbbcRestUtilExtension;
-use Symfony\Component\DependencyInjection\Definition;
+use Tbbc\RestUtilBundle\TbbcRestUtilBundle;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@gmail.com>
@@ -87,7 +84,7 @@ class TbbcRestUtilExtensionTest extends TestCase
     {
         $exceptionMap = new ExceptionMap();
         $exceptionMap
-            ->add(new ExceptionMapping(array(
+            ->add(new ExceptionMapping([
                 'exceptionClassName' => '\RuntimeException',
                 'factory' => '__DEFAULT__',
                 'httpStatusCode' => 500,
@@ -95,10 +92,10 @@ class TbbcRestUtilExtensionTest extends TestCase
                 'errorMessage' => 'Server error',
                 'errorExtendedMessage' => 'Extended message',
                 'errorMoreInfoUrl' => 'http://api.my.tld/doc/error/500123',
-            )))
+            ]))
         ;
 
-        $exceptionMap->add(new ExceptionMapping(array(
+        $exceptionMap->add(new ExceptionMapping([
                 'exceptionClassName' => 'My\CustomException',
                 'factory' => 'custom',
                 'httpStatusCode' => 400,
@@ -106,7 +103,7 @@ class TbbcRestUtilExtensionTest extends TestCase
                 'errorMessage' => 'Validation failed',
                 'errorExtendedMessage' => 'Extended message',
                 'errorMoreInfoUrl' => 'http://api.my.tld/doc/error/400110',
-            )))
+            ]))
         ;
 
         return $exceptionMap;
@@ -117,12 +114,12 @@ class TbbcRestUtilExtensionTest extends TestCase
      */
     private function getConfig()
     {
-        return array(
-            "tbbc_rest_util" => array (
-                "error" => array (
+        return [
+            "tbbc_rest_util" => [
+                "error" => [
                     'use_bundled_factories' => false,
-                    'exception_mapping' => array(
-                        'InvalidArgumentException' => array(
+                    'exception_mapping' => [
+                        'InvalidArgumentException' => [
                             'class' => '\RuntimeException',
                             'factory' => 'default',
                             'http_status_code' => 500,
@@ -131,8 +128,8 @@ class TbbcRestUtilExtensionTest extends TestCase
                             'error_extended_message' => 'Extended message',
                             'error_more_info_url' => 'http://api.my.tld/doc/error/500123',
 
-                        ),
-                        'FormException' => array(
+                        ],
+                        'FormException' => [
                             'class' => 'My\CustomException',
                             'factory' => 'custom',
                             'http_status_code' => 400,
@@ -140,10 +137,10 @@ class TbbcRestUtilExtensionTest extends TestCase
                             'error_message' => 'Validation failed',
                             'error_extended_message' => 'Extended message',
                             'error_more_info_url' => 'http://api.my.tld/doc/error/400110',
-                        ),
-                    ),
-                ),
-            ),
-        );
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 }
